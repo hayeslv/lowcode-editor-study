@@ -1,6 +1,7 @@
 import { defineComponent, ref } from "vue";
 import data from "~/data.json";
 import Editor from "./packages/editor";
+import "~/style/index.scss";
 
 export default defineComponent({
   setup() {
