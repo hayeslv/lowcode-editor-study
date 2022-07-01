@@ -32,9 +32,12 @@
       .editor-container-canvas__content {
         margin: 20px auto;
         background: yellow;
-        width: 550px;
-        height: 550px;
+        position: relative;
       }
     }
   }
+}
+
+.editor-block{
+  position: absolute;
 }
