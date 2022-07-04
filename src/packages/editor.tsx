@@ -27,7 +27,42 @@ export default defineComponent({
 
     const containerRef = ref(null);
 
+    // 实现菜单的拖拽功能
     const { dragstart, dragend } = useMenuDragger(containerRef, data);
+
+    // 实现获取焦点
+
+    // 实现拖拽多个元素
+
+    const clearBlockFocus = () => {
+      data.value.blocks.forEach(block => (block.focus = false));
+    };
+
+    const blockMethods = {
+      mousedown(e: MouseEvent, block) {
+        e.preventDefault();
+        e.stopPropagation();
+        // block上我们规划一个属性 focus，获取焦点后就将focus变为true
+        if (e.shiftKey) {
+          block.focus = !block.focus;
+        } else {
+          if (!block.focus) {
+            // 清空其它的focus属性
+            clearBlockFocus();
+            block.focus = true;
+          } else {
+            block.focus = false;
+          }
+        }
+      },
+    };
+
+    const containerMethods = {
+      mousedown(e: MouseEvent) {
+        // 点击容器，让全部组件失去焦点
+        clearBlockFocus();
+      },
+    };
 
     return () => <div class="editor">
       <div class="editor-left">
@@ -50,10 +85,21 @@ export default defineComponent({
         {/* 负责产生滚动条（页面比较长的情况下） */}
         <div class="editor-container-canvas">
           {/* 内容区域 */}
-          <div ref={containerRef} class="editor-container-canvas__content" style={containerStyles.value}>
+          <div
+            ref={containerRef}
+            class="editor-container-canvas__content"
+            style={containerStyles.value}
+            onMousedown={containerMethods.mousedown}
+          >
             {
               data.value.blocks.map(block => (
-                <EditorBlock block={block}></EditorBlock>
+                <EditorBlock
+                  class={block.focus ? "editor-block-focus" : "" }
+                  block={block}
+                  {...{
+                    onMousedown: (e: MouseEvent) => blockMethods.mousedown(e, block),
+                  }}
+                ></EditorBlock>
               ))
             }
           </div>
