@@ -1,4 +1,4 @@
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, inject } from "vue";
 
 export default defineComponent({
   props: {
@@ -11,9 +11,17 @@ export default defineComponent({
       zIndex: `${props.block.zIndex}`,
     }));
 
-    return { blockStyles };
+    const config = inject("config");
+
+    return { config, blockStyles };
   },
   render() {
-    return <div class="editor-block" style={this.blockStyles}>test</div>;
+    // 通过block的key属性，直接获取对应的组件
+    const component = this.config.componentMap[this.block.key];
+    // 获取渲染函数
+    const RenderComponent = component.render();
+    return <div class="editor-block" style={this.blockStyles}>
+      {RenderComponent}
+    </div>;
   },
 });

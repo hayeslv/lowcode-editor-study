@@ -16,6 +16,7 @@
     "prepare": "npx husky install"
   },
   "dependencies": {
+    "element-plus": "^2.2.8",
     "vue": "^3.2.25"
   },
   "devDependencies": {

@@ -1,15 +1,14 @@
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, provide, ref, watch } from "vue";
 import data from "~/data.json";
 import Editor from "./packages/Editor";
 import "~/style/index.scss";
+import { registorConfig as config } from "~/utils/editor-config";
 
 export default defineComponent({
   setup() {
     const state = ref(data);
 
-    // watch(() => state.value, () => {
-    //   console.log(state.value);
-    // }, { deep: true });
+    provide("config", config); // 将组件的配置直接传入
 
     return { state };
   },
