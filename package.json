@@ -16,6 +16,7 @@
     "prepare": "npx husky install"
   },
   "dependencies": {
+    "deepcopy": "^2.1.0",
     "element-plus": "^2.2.8",
     "vue": "^3.2.25"
   },
@@ -45,7 +46,8 @@
       "auto-imports.d.ts"
     ],
     "rules": {
-      "@typescript-eslint/no-unused-vars": "off"
+      "@typescript-eslint/no-unused-vars": "off",
+      "vue/no-mutating-props": "off"
     }
   }
 }

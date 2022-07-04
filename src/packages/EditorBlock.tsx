@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject } from "vue";
+import { computed, defineComponent, inject, onMounted, ref } from "vue";
 
 export default defineComponent({
   props: {
@@ -8,19 +8,30 @@ export default defineComponent({
     const blockStyles = computed(() => ({
       top: `${props.block.top}px`,
       left: `${props.block.left}px`,
-      zIndex: `${props.block.zIndex}`,
+      zIndex: props.block.zIndex,
     }));
 
-    const config = inject("config");
+    const config: any = inject("config");
 
-    return { config, blockStyles };
-  },
-  render() {
+    const blockRef = ref(null);
+
+    onMounted(() => {
+      // blockRef.value：可以获取到新增元素的el
+      const { offsetWidth, offsetHeight } = blockRef.value;
+      if (props.block.alignCenter) { // 说明是拖拽松手的时候才渲染出来的组件，其他默认渲染到页面上的内容不需要居中
+        // 不建议直接修改props
+        props.block.left = props.block.left - offsetWidth / 2;
+        props.block.top = props.block.top - offsetHeight / 2;
+        props.block.alignCenter = false;
+      }
+    });
+
     // 通过block的key属性，直接获取对应的组件
-    const component = this.config.componentMap[this.block.key];
+    const component = config.componentMap[props.block.key];
     // 获取渲染函数
     const RenderComponent = component.render();
-    return <div class="editor-block" style={this.blockStyles}>
+
+    return () => <div ref={blockRef} class="editor-block" style={blockStyles.value}>
       {RenderComponent}
     </div>;
   },

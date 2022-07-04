@@ -16,7 +16,7 @@ export default defineComponent({
     return <div class="app">
       {/* 指定值，修饰符 */}
       {/* <Editor v-model={[this.state, "data", ["trim"]]} ></Editor> */}
-      <Editor data={this.state} {...{ "onUpdate:modelValue": (data) => (this.state = data) }}></Editor>
+      <Editor modelValue={this.state} {...{ "onUpdate:modelValue": (data) => (this.state = data) }}></Editor>
     </div>;
   },
 });
