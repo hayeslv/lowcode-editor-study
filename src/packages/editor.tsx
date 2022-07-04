@@ -1,4 +1,4 @@
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, inject } from "vue";
 import "~/style/editor.scss";
 import EditorBlock from "./EditorBlock";
 
@@ -16,12 +16,21 @@ export default defineComponent({
       width: data.value.container.width + "px",
       height: data.value.container.height + "px",
     }));
-    console.log(containerStyles);
     return { containerStyles };
   },
   render() {
+    const config: any = inject("config");
+
     return <div class="editor">
-      <div class="editor-left">左侧物料区</div>
+      <div class="editor-left">
+        {/* 根据注册列表，渲染对应的内容 */}
+        {config.componentList.map(component => (
+          <div class="editor-left-item">
+            <span>{component.label}</span>
+            <div>{component.preview()}</div>
+          </div>
+        ))}
+      </div>
       <div class="editor-top">菜单栏</div>
       <div class="editor-right">属性控制栏</div>
       <div class="editor-container">
