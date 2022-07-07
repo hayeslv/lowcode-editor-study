@@ -24,6 +24,8 @@ export default defineComponent({
         props.block.top = props.block.top - offsetHeight / 2;
         props.block.alignCenter = false;
       }
+      props.block.width = offsetWidth;
+      props.block.height = offsetHeight;
     });
 
     // 通过block的key属性，直接获取对应的组件

@@ -33,19 +33,12 @@ export default defineComponent({
     const { dragstart, dragend } = useMenuDragger(containerRef, data);
 
     // 获取焦点后，进行拖拽
-    const { focusData, blockMousedown, clearBlockFocus } = useFocus(data, (e) => {
+    const { focusData, lastSelectBlock, blockMousedown, containerMousedown } = useFocus(data, (e) => {
       mousedown(e);
     });
-    const { mousedown } = useBlockDragger(focusData);
+    const { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
     // 实现拖拽多个元素
-
-    const containerMethods = {
-      mousedown(e: MouseEvent) {
-        // 点击容器，让全部组件失去焦点
-        clearBlockFocus();
-      },
-    };
 
     return () => <div class="editor">
       <div class="editor-left">
@@ -72,19 +65,22 @@ export default defineComponent({
             ref={containerRef}
             class="editor-container-canvas__content"
             style={containerStyles.value}
-            onMousedown={containerMethods.mousedown}
+            onMousedown={containerMousedown}
           >
             {
-              data.value.blocks.map(block => (
+              data.value.blocks.map((block, index) => (
                 <EditorBlock
                   class={block.focus ? "editor-block-focus" : "" }
                   block={block}
                   {...{
-                    onMousedown: (e: MouseEvent) => blockMousedown(e, block),
+                    onMousedown: (e: MouseEvent) => blockMousedown(e, block, index),
                   }}
                 ></EditorBlock>
               ))
             }
+
+            { markLine.x !== null && <div class="line-x" style={{ left: markLine.x + "px" }}></div> }
+            { markLine.y !== null && <div class="line-y" style={{ top: markLine.y + "px" }}></div> }
           </div>
         </div>
       </div>
