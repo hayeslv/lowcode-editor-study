@@ -1,3 +1,5 @@
+import { GlobalEvent } from "~/config/global";
+import { events } from "./../plugins/events";
 export function useMenuDragger(containerRef, data) {
   let currentComponent = null;
 
@@ -43,12 +45,16 @@ export function useMenuDragger(containerRef, data) {
     containerRef.value.addEventListener("drop", containerMethods.drop);
 
     currentComponent = component;
+
+    events.emit(GlobalEvent.MenuDragstart);
   };
   const dragend = (e: DragEvent) => {
     containerRef.value.removeEventListener("dragenter", containerMethods.dragenter);
     containerRef.value.removeEventListener("dragover", containerMethods.dragover);
     containerRef.value.removeEventListener("dragleave", containerMethods.dragleave);
     containerRef.value.removeEventListener("drop", containerMethods.drop);
+
+    events.emit(GlobalEvent.MenuDragend);
   };
 
   return { dragstart, dragend };

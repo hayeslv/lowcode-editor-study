@@ -15,6 +15,7 @@ specifiers:
   eslint: ^8.11.0
   husky: ^7.0.4
   lint-staged: ^12.3.7
+  mitt: ^3.0.0
   sass: ^1.49.9
   typescript: ^4.5.4
   vite: ^2.8.0
@@ -24,6 +25,7 @@ specifiers:
 dependencies:
   deepcopy: 2.1.0
   element-plus: 2.2.8_vue@3.2.37
+  mitt: 3.0.0
   vue: 3.2.37
 
 devDependencies:
@@ -3665,6 +3667,10 @@ packages:
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: true
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
 
   /modify-values/1.0.1:
     resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
