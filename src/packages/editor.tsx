@@ -1,6 +1,7 @@
 import deepcopy from "deepcopy";
 import { computed, defineComponent, inject, ref } from "vue";
 import { useBlockDragger } from "~/hooks/useBlockDragger";
+import { useCommand } from "~/hooks/useCommand";
 import { useFocus } from "~/hooks/useFocus";
 import { useMenuDragger } from "~/hooks/useMenuDragger";
 import "~/style/editor.scss";
@@ -38,9 +39,10 @@ export default defineComponent({
     });
     const { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
+    const { commands } = useCommand();
     const buttons = [
-      { label: "撤销", icon: "icon-back", handler: () => console.log("撤销") },
-      { label: "重做", icon: "icon-forward", handler: () => console.log("重做") },
+      { label: "撤销", icon: "icon-back", handler: () => commands.undo() },
+      { label: "重做", icon: "icon-forward", handler: () => commands.redo() },
     ];
 
     return () => <div class="editor">
