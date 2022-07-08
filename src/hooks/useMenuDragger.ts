@@ -46,7 +46,7 @@ export function useMenuDragger(containerRef, data) {
 
     currentComponent = component;
 
-    events.emit(GlobalEvent.MenuDragstart);
+    events.emit(GlobalEvent.Dragstart);
   };
   const dragend = (e: DragEvent) => {
     containerRef.value.removeEventListener("dragenter", containerMethods.dragenter);
@@ -54,7 +54,7 @@ export function useMenuDragger(containerRef, data) {
     containerRef.value.removeEventListener("dragleave", containerMethods.dragleave);
     containerRef.value.removeEventListener("drop", containerMethods.drop);
 
-    events.emit(GlobalEvent.MenuDragend);
+    events.emit(GlobalEvent.Dragend);
   };
 
   return { dragstart, dragend };

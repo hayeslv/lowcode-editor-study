@@ -1,4 +1,4 @@
 export const GlobalEvent = {
-  MenuDragstart: "MenuDragstart",
-  MenuDragend: "MenuDragend",
+  Dragstart: "Dragstart",
+  Dragend: "Dragend",
 };

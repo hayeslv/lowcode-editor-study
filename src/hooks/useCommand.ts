@@ -25,7 +25,7 @@ export function useCommand(data) {
       // 撤回之后，再放置新元素的话，要把撤回的内容从队列中删掉
       if (state.queue.length > 0) { //! 只有dragend时才会执行 state.commands.drag，能走到这里，说明是不是redo、undo操作
         // 可能在放置的过程中有撤销的操作，所以根据当前最新的 current 值来计算新的队列
-        state.queue = state.queue.slice(0, state.current + 1);
+        state.queue = state.queue.slice(0, state.current + 1); // 每当有新元素进来时，就把之前撤销的元素全部干掉
       }
 
       state.queue.push({ redo, undo }); // 存入前进后退方法
@@ -82,12 +82,12 @@ export function useCommand(data) {
       const end = () => {
         state.commands.drag(); // 拖拽完成后执行的方法（execute）
       };
-      events.on(GlobalEvent.MenuDragstart, start);
-      events.on(GlobalEvent.MenuDragend, end);
+      events.on(GlobalEvent.Dragstart, start);
+      events.on(GlobalEvent.Dragend, end);
 
       return () => { // 返回一个卸载函数
-        events.off(GlobalEvent.MenuDragstart, start);
-        events.off(GlobalEvent.MenuDragend, end);
+        events.off(GlobalEvent.Dragstart, start);
+        events.off(GlobalEvent.Dragend, end);
       };
     },
     // 调用 execute 时，会默认做一次 redo 操作
