@@ -38,7 +38,10 @@ export default defineComponent({
     });
     const { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
-    // 实现拖拽多个元素
+    const buttons = [
+      { label: "撤销", icon: "icon-back", handler: () => console.log("撤销") },
+      { label: "重做", icon: "icon-forward", handler: () => console.log("重做") },
+    ];
 
     return () => <div class="editor">
       <div class="editor-left">
@@ -55,7 +58,14 @@ export default defineComponent({
           </div>
         ))}
       </div>
-      <div class="editor-top">菜单栏</div>
+      <div class="editor-top">
+        {buttons.map((btn, index) => {
+          return <div class="editor-top-button" onClick={btn.handler}>
+            <i class={btn.icon}></i>
+            <span>{btn.label}</span>
+          </div>;
+        })}
+      </div>
       <div class="editor-right">属性控制栏</div>
       <div class="editor-container">
         {/* 负责产生滚动条（页面比较长的情况下） */}

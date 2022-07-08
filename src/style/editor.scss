@@ -7,7 +7,6 @@
     top: 0;
     bottom: 0;
     width: 270px;
-    background: red;
   }
   .editor-left {
     left: 0;
@@ -52,7 +51,6 @@
     left: 280px;
     right: 280px;
     height: 80px;
-    background: blue;
   }
   .editor-container {
     padding: 80px 270px 0;
@@ -101,4 +99,23 @@
   left: 0;
   right: 0;
   border-top: 1px dashed red;
+}
+
+.editor-top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .editor-top-button {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .3);
+    user-select: none;
+    cursor: pointer;
+    color: #fff;
+    margin-left: 3px;
+  }
 }
