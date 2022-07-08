@@ -107,8 +107,38 @@ export function useCommand(data) {
     },
   });
 
+  const keyboardEvent = (() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const { ctrlKey, key } = e; // 组合是否是 ctrl+z 、 ctrl+y
+      const keyString = [];
+      if (ctrlKey) keyString.push("ctrl");
+      keyString.push(key);
+      const str = keyString.join("+");
+
+      state.commandArray.forEach(({ keyboard, name }) => {
+        if (!keyboard) return; // 没有键盘事件
+        if (keyboard === str) {
+          state.commands[name]();
+          e.preventDefault();
+        }
+      });
+    };
+
+    const init = () => {
+      window.addEventListener("keydown", onKeyDown);
+
+      return () => { // 返回销毁事件
+        window.removeEventListener("keydown", onKeyDown);
+      };
+    };
+    return init;
+  })();
+
   // 执行全部的初始化方法
   (() => {
+    // 监听键盘事件
+    state.destoryArray.push(keyboardEvent());
+
     state.commandArray.forEach(command => command.init && state.destoryArray.push(command.init()));
   })();
 
