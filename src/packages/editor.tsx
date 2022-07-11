@@ -49,12 +49,22 @@ export default defineComponent({
         icon: "icon-export",
         handler: () => {
           $dialog({
-            titile: "",
-            content: "",
+            titile: "导出json",
+            content: JSON.stringify(data.value),
           });
         },
       },
-      { label: "导入", icon: "icon-import", handler: () => console.log("导入") },
+      {
+        label: "导入",
+        icon: "icon-import",
+        handler: () => {
+          $dialog({
+            titile: "导入json",
+            content: "",
+            footer: true,
+          });
+        },
+      },
     ];
 
     return () => <div class="editor">
