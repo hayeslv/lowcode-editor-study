@@ -19,14 +19,27 @@ const DialogComponent = defineComponent({
         state.isShow = true;
       },
     });
+
+    const cancel = () => {
+      state.isShow = false;
+    };
+    const confirm = () => {
+      state.isShow = false;
+      state.option.onConfirm && state.option.onConfirm(state.option.content);
+    };
+
     return () => {
       // return <ElDialog v-model={state.isShow}></ElDialog>;
-      return <ElDialog modelValue={state.isShow} {...{ "onUpdate:modelValue": (flag) => (state.isShow = flag) }}>
+      return <ElDialog
+        modelValue={state.isShow}
+        title={state.option.title}
+        {...{ "onUpdate:modelValue": (flag) => (state.isShow = flag) }}
+      >
         {{
           default: () => <ElInput type="textarea" v-model={state.option.content} {...{ rows: 10 }} />,
           footer: () => state.option.footer && <div>
-            <ElButton onClick={() => {}}>取消</ElButton>
-            <ElButton type="primary" onClick={() => {}}>确定</ElButton>
+            <ElButton onClick={cancel}>取消</ElButton>
+            <ElButton type="primary" onClick={confirm}>确定</ElButton>
           </div>,
         }}
       </ElDialog>;

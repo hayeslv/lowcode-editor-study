@@ -49,7 +49,7 @@ export default defineComponent({
         icon: "icon-export",
         handler: () => {
           $dialog({
-            titile: "导出json",
+            title: "导出json",
             content: JSON.stringify(data.value),
           });
         },
@@ -59,9 +59,12 @@ export default defineComponent({
         icon: "icon-import",
         handler: () => {
           $dialog({
-            titile: "导入json",
+            title: "导入json",
             content: "",
             footer: true,
+            onConfirm(text) {
+              data.value = JSON.parse(text);
+            },
           });
         },
       },
