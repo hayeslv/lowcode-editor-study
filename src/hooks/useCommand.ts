@@ -14,8 +14,8 @@ export function useCommand(data) {
 
   const registry = (command) => {
     state.commandArray.push(command);
-    state.commands[command.name] = () => { // 命令名称对应执行函数
-      const { redo, undo } = command.execute();
+    state.commands[command.name] = (...args) => { // 命令名称对应执行函数
+      const { redo, undo } = command.execute(...args);
       redo(); // 更新数据
 
       // 当前命令是否需要放入队列中
@@ -102,6 +102,25 @@ export function useCommand(data) {
         undo() {
           // 撤销：还原前一步的状态
           data.value = { ...data.value, blocks: before };
+        },
+      };
+    },
+  });
+
+  registry({
+    name: "updateContainer", // 更新整个容器
+    pushQueue: true,
+    execute(newValue) {
+      const state = {
+        before: data.value, // 当前的值
+        after: newValue, // 新值
+      };
+      return {
+        redo: () => {
+          data.value = state.after;
+        },
+        undo: () => {
+          data.value = state.before;
         },
       };
     },

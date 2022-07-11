@@ -63,7 +63,8 @@ export default defineComponent({
             content: "",
             footer: true,
             onConfirm(text) {
-              data.value = JSON.parse(text);
+              // data.value = JSON.parse(text); // 这样更改无法保存历史记录
+              commands.updateContainer(JSON.parse(text));
             },
           });
         },
