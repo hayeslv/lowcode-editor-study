@@ -1,5 +1,6 @@
 import deepcopy from "deepcopy";
 import { computed, defineComponent, inject, ref } from "vue";
+import { $dialog } from "~/components/Dialog";
 import { useBlockDragger } from "~/hooks/useBlockDragger";
 import { useCommand } from "~/hooks/useCommand";
 import { useFocus } from "~/hooks/useFocus";
@@ -43,6 +44,17 @@ export default defineComponent({
     const buttons = [
       { label: "撤销", icon: "icon-back", handler: () => commands.undo() },
       { label: "重做", icon: "icon-forward", handler: () => commands.redo() },
+      {
+        label: "导出",
+        icon: "icon-export",
+        handler: () => {
+          $dialog({
+            titile: "",
+            content: "",
+          });
+        },
+      },
+      { label: "导入", icon: "icon-import", handler: () => console.log("导入") },
     ];
 
     return () => <div class="editor">
