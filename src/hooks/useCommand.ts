@@ -2,7 +2,7 @@ import deepcopy from "deepcopy";
 import { onUnmounted } from "vue";
 import { GlobalEvent } from "./../config/global";
 import { events } from "./../plugins/events";
-export function useCommand(data) {
+export function useCommand(data, focusData) {
   // 前进后退需要指针
   const state = {
     current: -1, // 前进后退的索引值
@@ -121,6 +121,72 @@ export function useCommand(data) {
         },
         undo: () => {
           data.value = state.before;
+        },
+      };
+    },
+  });
+
+  // 置顶
+  registry({
+    name: "placeTop",
+    pushQueue: true,
+    execute() {
+      const before = deepcopy(data.value.blocks);
+      const after = (() => { // 置顶就是在所有的block中找到最大的
+        const { focus, unfocus } = focusData.value;
+        const maxZIndex = unfocus.reduce((prev, block) => {
+          return Math.max(prev, block.zIndex);
+        }, -Infinity);
+
+        focus.forEach(block => (block.zIndex = maxZIndex + 1)); // 让当前选中的元素比未选中中最大的多1
+
+        return data.value.blocks;
+      })();
+
+      return {
+        undo: () => {
+          // 如果当前blocks前后一致，则不会触发更新
+          data.value = { ...data.value, blocks: before };
+        },
+        redo: () => {
+          data.value = { ...data.value, blocks: after };
+        },
+      };
+    },
+  });
+
+  // 置底
+  registry({
+    name: "placeBottom",
+    pushQueue: true,
+    execute() {
+      const before = deepcopy(data.value.blocks);
+      const after = (() => { // 置顶就是在所有的block中找到最大的
+        const { focus, unfocus } = focusData.value;
+        let minZIndex = unfocus.reduce((prev, block) => {
+          return Math.min(prev, block.zIndex);
+        }, Infinity) - 1;
+
+        // 不能直接-1，因为index不能出现负值，负值就看不见了
+        // 解决方法：如果这个值是负的话，就让自己变成0，其他元素向上+
+        if (minZIndex < 0) {
+          const dur = Math.abs(minZIndex);
+          minZIndex = 0;
+          unfocus.forEach(block => (block.zIndex += dur));
+        }
+
+        focus.forEach(block => (block.zIndex = minZIndex));
+
+        return data.value.blocks;
+      })();
+
+      return {
+        undo: () => {
+          // 如果当前blocks前后一致，则不会触发更新
+          data.value = { ...data.value, blocks: before };
+        },
+        redo: () => {
+          data.value = { ...data.value, blocks: after };
         },
       };
     },

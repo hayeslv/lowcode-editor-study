@@ -40,7 +40,7 @@ export default defineComponent({
     });
     const { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
-    const { commands } = useCommand(data);
+    const { commands } = useCommand(data, focusData);
     const buttons = [
       { label: "撤销", icon: "icon-back", handler: () => commands.undo() },
       { label: "重做", icon: "icon-forward", handler: () => commands.redo() },
@@ -69,6 +69,8 @@ export default defineComponent({
           });
         },
       },
+      { label: "置顶", icon: "icon-place-top", handler: () => commands.placeTop() },
+      { label: "置底", icon: "icon-place-bottom", handler: () => commands.placeBottom() },
     ];
 
     return () => <div class="editor">
