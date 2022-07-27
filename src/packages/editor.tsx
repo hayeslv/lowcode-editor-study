@@ -14,6 +14,9 @@ export default defineComponent({
   },
   emits: ["update:modelValue"], // 要触发的事件
   setup(props, { emit }) {
+    // 预览的时候，内容不能再操作了，可以点击输入内容，方便看效果
+    const previewRef = ref(false);
+
     const config: any = inject("config");
     const data = computed({
       get() {
@@ -35,7 +38,7 @@ export default defineComponent({
     const { dragstart, dragend } = useMenuDragger(containerRef, data);
 
     // 获取焦点后，进行拖拽
-    const { focusData, lastSelectBlock, blockMousedown, containerMousedown } = useFocus(data, (e) => {
+    const { focusData, lastSelectBlock, blockMousedown, containerMousedown, clearBlockFocus } = useFocus(data, previewRef, (e) => {
       mousedown(e);
     });
     const { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
@@ -72,6 +75,15 @@ export default defineComponent({
       { label: "置顶", icon: "icon-place-top", handler: () => commands.placeTop() },
       { label: "置底", icon: "icon-place-bottom", handler: () => commands.placeBottom() },
       { label: "删除", icon: "icon-delete", handler: () => commands.delete() },
+
+      {
+        label: () => previewRef.value ? "编辑" : "预览",
+        icon: () => previewRef.value ? "icon-edit" : "icon-browse",
+        handler: () => {
+          previewRef.value = !previewRef.value;
+          clearBlockFocus();
+        },
+      },
     ];
 
     return () => <div class="editor">
@@ -91,9 +103,11 @@ export default defineComponent({
       </div>
       <div class="editor-top">
         {buttons.map((btn, index) => {
+          const icon = typeof btn.icon === "function" ? btn.icon() : btn.icon;
+          const label = typeof btn.label === "function" ? btn.label() : btn.label;
           return <div class="editor-top-button" onClick={btn.handler}>
-            <i class={btn.icon}></i>
-            <span>{btn.label}</span>
+            <i class={icon}></i>
+            <span>{label}</span>
           </div>;
         })}
       </div>
@@ -112,7 +126,10 @@ export default defineComponent({
               data.value.blocks.map((block, index) => (
                 <EditorBlock
                   key={block}
-                  class={block.focus ? "editor-block-focus" : "" }
+                  class={[
+                    block.focus ? "editor-block-focus" : "",
+                    previewRef.value ? "editor-block-preview" : "",
+                  ]}
                   block={block}
                   {...{
                     onMousedown: (e: MouseEvent) => blockMousedown(e, block, index),

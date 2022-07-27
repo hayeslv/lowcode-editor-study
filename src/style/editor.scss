@@ -86,6 +86,12 @@
   }
 }
 
+.editor-block-preview{
+  &::after {
+    display: none;
+  }
+}
+
 // 移动left值
 .line-x {
   position: absolute;

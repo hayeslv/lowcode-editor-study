@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 
-export function useFocus(data, callback) {
+export function useFocus(data, previewRef, callback) {
   // 当前选中的元素，默认-1：没有任何元素被选中
   const selectIndex = ref(-1);
   // 最后一个选中的元素（对齐线以最后一个元素为基准）
@@ -19,11 +19,13 @@ export function useFocus(data, callback) {
   };
 
   const containerMousedown = () => {
+    if (previewRef.value) return; // 预览模式不能拖拽
     clearBlockFocus();
     selectIndex.value = -1;
   };
 
   const blockMousedown = (e: MouseEvent, block, index: number) => {
+    if (previewRef.value) return; // 预览模式不能拖拽
     e.preventDefault();
     e.stopPropagation();
     // block上我们规划一个属性 focus，获取焦点后就将focus变为true
