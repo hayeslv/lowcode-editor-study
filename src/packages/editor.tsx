@@ -71,6 +71,7 @@ export default defineComponent({
       },
       { label: "置顶", icon: "icon-place-top", handler: () => commands.placeTop() },
       { label: "置底", icon: "icon-place-bottom", handler: () => commands.placeBottom() },
+      { label: "删除", icon: "icon-delete", handler: () => commands.delete() },
     ];
 
     return () => <div class="editor">
@@ -110,6 +111,7 @@ export default defineComponent({
             {
               data.value.blocks.map((block, index) => (
                 <EditorBlock
+                  key={block}
                   class={block.focus ? "editor-block-focus" : "" }
                   block={block}
                   {...{

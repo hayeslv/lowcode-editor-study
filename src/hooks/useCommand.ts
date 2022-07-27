@@ -192,6 +192,26 @@ export function useCommand(data, focusData) {
     },
   });
 
+  // 删除
+  registry({
+    name: "delete",
+    pushQueue: true,
+    execute() {
+      const state = {
+        before: deepcopy(data.value.blocks), // 当前的值
+        after: focusData.value.unfocus, // 选中的都删除了，留下的都是没选中的
+      };
+      return {
+        redo: () => {
+          data.value = { ...data.value, blocks: state.after };
+        },
+        undo: () => {
+          data.value = { ...data.value, blocks: state.before };
+        },
+      };
+    },
+  });
+
   const keyboardEvent = (() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const { ctrlKey, key } = e; // 组合是否是 ctrl+z 、 ctrl+y
