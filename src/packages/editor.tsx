@@ -106,8 +106,27 @@ export default defineComponent({
           <DropdownItem label="删除" icon="icon-delete" {...{ onClick: () => commands.delete() }}></DropdownItem>
           <DropdownItem label="置顶" icon="icon-place-top" {...{ onClick: () => commands.placeTop() }}></DropdownItem>
           <DropdownItem label="置底" icon="icon-place-bottom" {...{ onClick: () => commands.placeBottom() }}></DropdownItem>
-          <DropdownItem label="查看" icon="icon-browse" {...{ onClick: () => commands.delete() }}></DropdownItem>
-          <DropdownItem label="导入" icon="icon-import" {...{ onClick: () => commands.delete() }}></DropdownItem>
+          <DropdownItem label="查看" icon="icon-browse" {...{
+            onClick: () => {
+              $dialog({
+                title: "查看节点数据",
+                content: JSON.stringify(block),
+              });
+            },
+          }}></DropdownItem>
+          <DropdownItem label="导入" icon="icon-import" {...{
+            onClick: () => {
+              $dialog({
+                title: "导入节点数据",
+                content: "",
+                footer: true,
+                onConfirm(text) {
+                  text = JSON.parse(text);
+                  commands.updateBlock(text, block);
+                },
+              });
+            },
+          }}></DropdownItem>
         </>,
       });
     };

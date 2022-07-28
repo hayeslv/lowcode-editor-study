@@ -126,6 +126,32 @@ export function useCommand(data, focusData) {
     },
   });
 
+  registry({
+    name: "updateBlock", // 更新某个组件
+    pushQueue: true,
+    execute(newBlock, oldBlock) {
+      const state = {
+        before: data.value.blocks, // 当前的值
+        after: (() => {
+          const blocks = [...data.value.blocks]; // 拷贝一份
+          const index = data.value.blocks.indexOf(oldBlock);
+          if (index > -1) { // 如果在当前blocks中
+            blocks.splice(index, 1, newBlock); // 则将其删除，并在该位置添加新的block
+          }
+          return blocks;
+        })(), // 新值
+      };
+      return {
+        redo: () => {
+          data.value = { ...data.value, blocks: state.after };
+        },
+        undo: () => {
+          data.value = { ...data.value, blocks: state.before };
+        },
+      };
+    },
+  });
+
   // 置顶
   registry({
     name: "placeTop",

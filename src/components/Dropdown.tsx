@@ -6,7 +6,7 @@ export const DropdownItem = defineComponent({
     icon: String,
   },
   setup(props) {
-    const hide = inject("hide");
+    const hide: (e: MouseEvent) => void = inject("hide");
 
     return () => <div class="dropdown-item" onClick={hide}>
       <i class={props.icon}></i>
