@@ -36,7 +36,7 @@ registorConfig.registor({
     ]),
   },
   preview: () => "预览文本",
-  render: () => "渲染文本",
+  render: ({ props }) => <span style={{ color: props.color }}>{props.text || "渲染文本"}</span>,
 });
 
 registorConfig.registor({
