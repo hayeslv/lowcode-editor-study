@@ -9,6 +9,7 @@ import { useFocus } from "~/hooks/useFocus";
 import { useMenuDragger } from "~/hooks/useMenuDragger";
 import "~/style/editor.scss";
 import EditorBlock from "./EditorBlock";
+import EditorOperator from "./EditorOperator";
 
 export default defineComponent({
   props: {
@@ -174,7 +175,9 @@ export default defineComponent({
             </div>;
           })}
         </div>
-        <div class="editor-right">属性控制栏</div>
+        <div class="editor-right">
+          <EditorOperator block={lastSelectBlock.value} data={data.value}></EditorOperator>
+        </div>
         <div class="editor-container">
           {/* 负责产生滚动条（页面比较长的情况下） */}
           <div class="editor-container-canvas">

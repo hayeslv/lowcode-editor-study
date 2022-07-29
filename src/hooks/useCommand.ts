@@ -30,7 +30,6 @@ export function useCommand(data, focusData) {
 
       state.queue.push({ redo, undo }); // 存入前进后退方法
       state.current = state.current + 1;
-      console.log(state.queue);
     };
   };
 
