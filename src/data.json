@@ -22,7 +22,7 @@
       "props": {
         "text": "我的按钮",
         "type": "primary",
-        "size": "mini"
+        "size": "small"
       }
     },
     {

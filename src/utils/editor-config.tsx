@@ -36,7 +36,7 @@ registorConfig.registor({
     ]),
   },
   preview: () => "预览文本",
-  render: ({ props }) => <span style={{ color: props.color }}>{props.text || "渲染文本"}</span>,
+  render: ({ props }) => <span style={{ color: props.color, fontSize: props.size }}>{props.text || "渲染文本"}</span>,
 });
 
 registorConfig.registor({
@@ -53,13 +53,12 @@ registorConfig.registor({
     ]),
     size: createSelectProp("按钮尺寸", [
       { label: "默认", value: "" },
-      { label: "中等", value: "medium" },
+      { label: "大", value: "large" },
       { label: "小", value: "small" },
-      { label: "极小", value: "mini" },
     ]),
   },
   preview: () => <ElButton>预览按钮</ElButton>,
-  render: () => <ElButton>渲染按钮</ElButton>,
+  render: ({ props }) => <ElButton type={props.type} size={props.size}>{props.text || "渲染按钮"}</ElButton>,
 });
 
 registorConfig.registor({

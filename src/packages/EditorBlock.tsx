@@ -28,15 +28,16 @@ export default defineComponent({
       props.block.height = offsetHeight;
     });
 
-    // 通过block的key属性，直接获取对应的组件
-    const component = config.componentMap[props.block.key];
-    // 获取渲染函数
-    const RenderComponent = component.render({
-      props: props.block.props,
-    });
-
-    return () => <div ref={blockRef} class="editor-block" style={blockStyles.value}>
-      {RenderComponent}
-    </div>;
+    return () => {
+      // 通过block的key属性，直接获取对应的组件
+      const component = config.componentMap[props.block.key];
+      // 获取渲染函数
+      const RenderComponent = component.render({
+        props: props.block.props,
+      });
+      return <div ref={blockRef} class="editor-block" style={blockStyles.value}>
+        {RenderComponent}
+      </div>;
+    };
   },
 });

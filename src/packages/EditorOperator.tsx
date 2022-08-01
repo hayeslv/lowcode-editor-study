@@ -6,6 +6,8 @@ export default defineComponent({
   props: {
     block: { type: Object }, // 用户最后选中的元素
     data: { type: Object }, // 当前所有的数据
+    updateContainer: { type: Function },
+    updateBlock: { type: Function },
   },
   setup(props) {
     const config: any = inject("config"); // 组件的配置信息
@@ -20,6 +22,16 @@ export default defineComponent({
         state.editData = deepcopy(props.block);
       }
     };
+    const apply = () => {
+      if (!props.block) {
+        // 更改组件容器
+        props.updateContainer({ ...props.data, container: state.editData });
+      } else {
+        // 更改组件的配置
+        props.updateBlock(state.editData, props.block);
+      }
+    };
+
     watch(() => props.block, reset, { immediate: true });
 
     return () => {
@@ -54,8 +66,8 @@ export default defineComponent({
       return <ElForm labelPosition="top" style="padding: 30px;">
         {content}
         <ElFormItem>
-          <ElButton type="primary">应用</ElButton>
-          <ElButton>重置</ElButton>
+          <ElButton type="primary" onClick={() => apply()}>应用</ElButton>
+          <ElButton onClick={reset}>重置</ElButton>
         </ElFormItem>
       </ElForm>;
     };
