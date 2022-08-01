@@ -64,6 +64,9 @@ registorConfig.registor({
 registorConfig.registor({
   key: "input",
   label: "输入框",
+  model: {
+    default: "绑定字段",
+  },
   preview: () => <ElInput placeholder="预览输入框" />,
-  render: () => <ElInput placeholder="渲染输入框" />,
+  render: ({ model }) => <ElInput placeholder="渲染输入框" {...model.default} />,
 });

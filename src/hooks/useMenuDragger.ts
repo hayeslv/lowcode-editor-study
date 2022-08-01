@@ -31,6 +31,7 @@ export function useMenuDragger(containerRef, data) {
             zIndex: 1,
             alignCenter: true,
             props: {},
+            model: {},
           },
         ],
       };

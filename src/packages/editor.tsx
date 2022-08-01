@@ -14,6 +14,7 @@ import EditorOperator from "./EditorOperator";
 export default defineComponent({
   props: {
     modelValue: { type: Object, required: true },
+    formData: { type: Object },
   },
   emits: ["update:modelValue"], // 要触发的事件
   setup(props, { emit }) {
@@ -144,6 +145,7 @@ export default defineComponent({
                 key={block}
                 block={block}
                 class="editor-block-preview"
+                formData={props.formData}
               ></EditorBlock>
             ))
           }
@@ -197,6 +199,7 @@ export default defineComponent({
                       previewRef.value ? "editor-block-preview" : "",
                     ]}
                     block={block}
+                    formData={props.formData}
                     {...{
                       onMousedown: (e: MouseEvent) => blockMousedown(e, block, index),
                       onContextmenu: (e) => onContextMenuBlock(e, block),

@@ -10,13 +10,18 @@ export default defineComponent({
 
     provide("config", config); // 将组件的配置直接传入
 
-    return { state };
+    const formData = ref({
+      username: "hayeslv",
+      password: 123,
+    });
+
+    return { state, formData };
   },
   render() {
     return <div class="app">
       {/* 指定值，修饰符 */}
       {/* <Editor v-model={[this.state, "data", ["trim"]]} ></Editor> */}
-      <Editor modelValue={this.state} {...{ "onUpdate:modelValue": (data) => (this.state = data) }}></Editor>
+      <Editor modelValue={this.state} formData={this.formData} {...{ "onUpdate:modelValue": (data) => (this.state = data) }}></Editor>
     </div>;
   },
 });

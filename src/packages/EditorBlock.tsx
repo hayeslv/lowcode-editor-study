@@ -3,6 +3,7 @@ import { computed, defineComponent, inject, onMounted, ref } from "vue";
 export default defineComponent({
   props: {
     block: { type: Object, required: true },
+    formData: { type: Object },
   },
   setup(props) {
     const blockStyles = computed(() => ({
@@ -34,6 +35,15 @@ export default defineComponent({
       // 获取渲染函数
       const RenderComponent = component.render({
         props: props.block.props,
+        // model: props.block.model
+        model: Object.keys(component.model || {}).reduce((prev, modelName) => {
+          const propName = props.block.model[modelName]; // username
+          prev[modelName] = {
+            modelValue: props.formData[propName], // 这里绑定username
+            "onUpdate:modelValue": value => (props.formData[propName] = value),
+          };
+          return prev;
+        }, {} as any),
       });
       return <div ref={blockRef} class="editor-block" style={blockStyles.value}>
         {RenderComponent}

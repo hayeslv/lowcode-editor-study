@@ -61,6 +61,16 @@ export default defineComponent({
           });
           content.push(...formItemList);
         }
+
+        if (component && component.model) {
+          //                                                  default   标签名
+          content.push(Object.entries(component.model).map(([modelName, label]) => {
+            return <ElFormItem label={label as string}>
+              {/* model => { default: "username" } */}
+              <ElInput v-model={state.editData.model[modelName]}></ElInput>
+            </ElFormItem>;
+          }));
+        }
       }
 
       return <ElForm labelPosition="top" style="padding: 30px;">
