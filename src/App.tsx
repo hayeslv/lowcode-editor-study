@@ -13,6 +13,8 @@ export default defineComponent({
     const formData = ref({
       username: "hayeslv",
       password: 123,
+      start: 0,
+      end: 100,
     });
 
     return { state, formData };

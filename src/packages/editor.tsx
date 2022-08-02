@@ -150,7 +150,10 @@ export default defineComponent({
             ))
           }
         </div>
-        <div><ElButton type="primary" onClick={() => (editorRef.value = true)}>返回编辑</ElButton></div>
+        <div>
+          <ElButton type="primary" onClick={() => (editorRef.value = true)}>返回编辑</ElButton>
+          {JSON.stringify(props.formData)}
+        </div>
       </>
       : <div class="editor">
         <div class="editor-left">

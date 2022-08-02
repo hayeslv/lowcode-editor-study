@@ -2,6 +2,7 @@
 // key对应的组件映射关系
 
 import { ElButton, ElInput } from "element-plus";
+import Range from "~/components/Range";
 
 function createEditorConfig() {
   const componentList = [];
@@ -69,4 +70,23 @@ registorConfig.registor({
   },
   preview: () => <ElInput placeholder="预览输入框" />,
   render: ({ model }) => <ElInput placeholder="渲染输入框" {...model.default} />,
+});
+
+// 注册远程物料
+registorConfig.registor({
+  key: "range",
+  label: "范围选择器",
+  model: {
+    start: "开始范围字段",
+    end: "结束范围字段",
+  },
+  preview: () => <Range></Range>,
+  render: ({ model }) => {
+    return <Range {...{
+      start: model.start.modelValue,
+      "onUpdate:start": model.start["onUpdate:modelValue"],
+      end: model.end.modelValue,
+      "onUpdate:end": model.end["onUpdate:modelValue"],
+    }}></Range>;
+  },
 });
