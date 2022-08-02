@@ -1,7 +1,7 @@
 // 列表区可以显示所有的物料
 // key对应的组件映射关系
 
-import { ElButton, ElInput } from "element-plus";
+import { ElButton, ElInput, ElSelect } from "element-plus";
 import Range from "~/components/Range";
 
 function createEditorConfig() {
@@ -23,6 +23,7 @@ export const registorConfig = createEditorConfig();
 const createInputProp = (label: string) => ({ type: "input", label });
 const createColorProp = (label: string) => ({ type: "color", label });
 const createSelectProp = (label: string, options: { label: string; value: string }[]) => ({ type: "select", label, options });
+const createTableProp = (label: string, table: any) => ({ type: "table", label, table });
 
 registorConfig.registor({
   key: "text",
@@ -70,6 +71,22 @@ registorConfig.registor({
   },
   preview: () => <ElInput placeholder="预览输入框" />,
   render: ({ model }) => <ElInput placeholder="渲染输入框" {...model.default} />,
+});
+
+registorConfig.registor({
+  key: "select",
+  label: "下拉框",
+  props: { // [{label: "", value: ""}]
+    options: createTableProp("下拉选项", {
+      key: "label", // 显示给用户的是label值
+      options: [
+        { label: "显示值", filed: "label" },
+        { label: "绑定值", filed: "value" },
+      ],
+    }),
+  },
+  preview: () => <ElSelect modelValue=""></ElSelect>,
+  render: ({ props }) => <ElSelect modelValue=""></ElSelect>,
 });
 
 // 注册远程物料
