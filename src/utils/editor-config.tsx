@@ -44,6 +44,10 @@ registorConfig.registor({
 registorConfig.registor({
   key: "button",
   label: "按钮",
+  resize: {
+    width: true,
+    height: true,
+  },
   props: {
     text: createInputProp("按钮内容"),
     type: createSelectProp("按钮类型", [
@@ -60,17 +64,28 @@ registorConfig.registor({
     ]),
   },
   preview: () => <ElButton>预览按钮</ElButton>,
-  render: ({ props }) => <ElButton type={props.type} size={props.size}>{props.text || "渲染按钮"}</ElButton>,
+  render: ({ props, size }) => <ElButton
+    style={{ height: size.height + "px", width: size.width + "px" }}
+    type={props.type}
+    size={props.size}
+  >{props.text || "渲染按钮"}</ElButton>,
 });
 
 registorConfig.registor({
   key: "input",
   label: "输入框",
+  resize: {
+    width: true, // 更改输入框的横向大小
+  },
   model: {
     default: "绑定字段",
   },
   preview: () => <ElInput placeholder="预览输入框" />,
-  render: ({ model }) => <ElInput placeholder="渲染输入框" {...model.default} />,
+  render: ({ model, size }) => <ElInput
+    style={{ height: size.height + "px", width: size.width + "px" }}
+    placeholder="渲染输入框"
+    {...model.default}
+  />,
 });
 
 registorConfig.registor({
