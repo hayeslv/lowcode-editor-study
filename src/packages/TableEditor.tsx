@@ -1,5 +1,5 @@
 import deepcopy from "deepcopy";
-import { ElButton } from "element-plus";
+import { ElButton, ElTag } from "element-plus";
 import { computed, defineComponent } from "vue";
 import { $tableDialog } from "~/components/TableDialog";
 
@@ -35,6 +35,11 @@ export default defineComponent({
         {
           (!data.value || data.value.length === 0) &&
           <ElButton onClick={add}>添加</ElButton>
+        }
+        {
+          (data.value || []).map((item, index) => (
+            <ElTag key={index} onClick={add}>{item[props.propConfig.table.key]}</ElTag>
+          ))
         }
       </div>;
     };

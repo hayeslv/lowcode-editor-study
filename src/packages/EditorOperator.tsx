@@ -57,7 +57,10 @@ export default defineComponent({
                 select: () => <ElSelect v-model={state.editData.props[propName]}>
                   {propConfig.options.map(opt => <ElOption label={opt.label} value={opt.value}></ElOption>)}
                 </ElSelect>,
-                table: () => <TableEditor propConfig={propConfig} v-model={state.editData.props[propName]}></TableEditor>,
+                table: () => <TableEditor
+                  propConfig={propConfig}
+                  v-model={state.editData.props[propName]}
+                ></TableEditor>,
               }[propConfig.type]()}
             </ElFormItem>;
           });

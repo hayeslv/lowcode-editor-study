@@ -1,7 +1,7 @@
 // 列表区可以显示所有的物料
 // key对应的组件映射关系
 
-import { ElButton, ElInput, ElSelect } from "element-plus";
+import { ElButton, ElInput, ElOption, ElSelect } from "element-plus";
 import Range from "~/components/Range";
 
 function createEditorConfig() {
@@ -80,13 +80,22 @@ registorConfig.registor({
     options: createTableProp("下拉选项", {
       key: "label", // 显示给用户的是label值
       options: [
-        { label: "显示值", filed: "label" },
-        { label: "绑定值", filed: "value" },
+        { label: "显示值", field: "label" },
+        { label: "绑定值", field: "value" },
       ],
     }),
   },
+  model: {
+    default: "绑定字段",
+  },
   preview: () => <ElSelect modelValue=""></ElSelect>,
-  render: ({ props }) => <ElSelect modelValue=""></ElSelect>,
+  render: ({ props, model }) => {
+    return <ElSelect {...model.default}>
+      {(props.options || []).map((opt, index) => (
+        <ElOption key={index} label={opt.label} value={opt.value}></ElOption>
+      ))}
+    </ElSelect>;
+  },
 });
 
 // 注册远程物料

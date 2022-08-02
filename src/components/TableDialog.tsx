@@ -24,6 +24,13 @@ const TableComponent = defineComponent({
     const add = () => {
       state.editData.push({});
     };
+    const onCancel = () => {
+      state.isShow = false;
+    };
+    const onConfirm = () => {
+      state.option.onConfirm(state.editData);
+      onCancel();
+    };
 
     ctx.expose(methods);
 
@@ -40,16 +47,26 @@ const TableComponent = defineComponent({
                 <ElButton>重置</ElButton>
               </div>
               <ElTable data={state.editData}>
-                {state.option.config.table.options.map((item, index) => {
-                  return <ElTableColumn key={index} label={item.label}>
-                    {{
-                      default: ({ row }) => <ElInput v-model={row[item.filed]} />,
-                    }}
-                  </ElTableColumn>;
-                })}
+                <ElTableColumn type="index" />
+                {
+                  state.option.config.table.options.map((item, index) => {
+                    return <ElTableColumn key={index} label={item.label}>
+                      {{
+                        default: ({ row }) => <ElInput v-model={row[item.field]} />,
+                      }}
+                    </ElTableColumn>;
+                  })
+                }
+                <ElTableColumn label="操作">
+                  <ElButton type="danger">删除</ElButton>
+                </ElTableColumn>
               </ElTable>
             </div>
           ),
+          footer: () => <>
+            <ElButton onClick={onCancel}>取消</ElButton>
+            <ElButton onClick={onConfirm}>确定</ElButton>
+          </>,
         }}
       </ElDialog>;
     };
